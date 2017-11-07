@@ -46,14 +46,14 @@ function abrirVentanaAproximar (handlesource,event)
                "string","Eje x:","position",[100,350,300,40], ... 
                "fontsize",16);
   ejeX = uicontrol (entornoAproximar, "style", "edit", ...
-               "string", "", "position",[120,310,290,40], ...
+               "string", "1,6,8,9", "position",[120,310,290,40], ...
                "fontsize",14,"backgroundcolor",[.5,.5,.5]);              
                
   textoEjeY = uicontrol (entornoAproximar,"style","text", ...
                "string","Eje y :","position",[100,250,300,40], ... 
                "fontsize",16);  
   ejeY = uicontrol (entornoAproximar, "style", "edit", ...
-               "string", "", "position",[120,210,290,40], ...
+               "string", "6,8,9,7", "position",[120,210,290,40], ...
                "fontsize",14,"backgroundcolor",[.5,.5,.5]);
   
   textoCantDecimales = uicontrol (entornoAproximar,"style","text", ...
@@ -414,13 +414,20 @@ function graficoRecta(ejeX,ejeY,cantDecimales)
   
   x = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
-
-  hold on 
-  plot(x, y, 'o');
+  
   P = polyfit(x, y, 1); 
   a = P(1); 
   b = P(2); 
+  
+  hold on 
+  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
+
   plot(x, a*x+b);
+  xlabel('x')
+  ylabel('y')
+  grid on
+  title('Recta de mínimos cuadrados')
+  hold off
    
 endfunction
 
@@ -436,14 +443,21 @@ function graficoParabola(ejeX,ejeY,cantDecimales)
 
   x = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
-
-  hold on 
-  plot(x, y, 'o'); 
+  
   P = polyfit(x, y, 2)
   a = P(1) 
   b = P(2) 
   c = P(3) 
+  
+  hold on 
+  plot(x,y,'ro','markersize',4,'markerfacecolor','r') 
+  
   plot(x, a*(x.^2)+b*x+c);
+  xlabel('x')
+  ylabel('y')
+  grid on
+  title('Parábola de mínimos cuadrados')
+  hold off
 
 endfunction
 
@@ -460,15 +474,17 @@ function graficoExponencial(ejeX,ejeY,cantDecimales)
   x = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  p=polyfit(x,log(y),1);
+  p = polyfit(x,log(y),1);
   hold on
   plot(x,y,'ro','markersize',4,'markerfacecolor','r')
-  z=@(x) exp(p(2))*exp(x*p(1));
-  fplot(z,[x(1),x(end)])
+  
+  z = exp(p(2))*exp(x*p(1));
+  plot(x, z);
+  
   xlabel('x')
   ylabel('y')
   grid on
-  title('Regresión exponencial')
+  title('Aproximación Exponencial')
   hold off
   
 endfunction
@@ -485,18 +501,17 @@ function graficoPotencial(ejeX,ejeY,cantDecimales)
   x = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  p=polyfit(log10(x),log10(y),1);
-  fprintf('exponente a= %2.3f\n',p(1));
-  fprintf('coeficiente c = %3.3f\n',(10^p(2)));
-   
+  p = polyfit(log10(x),log10(y),1);
   hold on
   plot(x,y,'ro','markersize',4,'markerfacecolor','r')
-  z=@(x) (10^p(2))*x.^p(1);
-  fplot(z,[x(1),x(end)])
+  
+  z = (10^p(2))*x.^p(1);
+  plot(x, z);
+  
   xlabel('x')
   ylabel('y')
   grid on
-  title('Regresión potencial')
+  title('Aproximación Potencial')
   hold off
 
 endfunction
@@ -506,6 +521,25 @@ endfunction
 ##### 
 
 function graficoHiperbola(ejeX,ejeY,cantDecimales)
+  grafico = figure;
+  set (grafico,"name","Gráfica de la función");
+  set (grafico,"numbertitle","off");
+  
+  x = stringAArray (get (ejeX,"string")); %eje x
+  y = stringAArray (get (ejeY,"string")); %eje y
+
+  p = polyfit(1./x,1./y,1);
+   
+  hold on
+  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
+
+  z = (1./p(1))./((p(2)*(1./p(1))) + x);
+  plot(x, z);
+  xlabel('x')
+  ylabel('y')
+  grid on
+  title('Aproximación Hipérbola')
+  hold off
   
 endfunction
 
