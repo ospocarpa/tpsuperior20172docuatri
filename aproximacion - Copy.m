@@ -1,3 +1,4 @@
+
 pkg load control;
 pkg load signal;
 
@@ -267,13 +268,42 @@ endfunction
 ######                                                   
 ###   FUNCION APROXIMACION EXPONENCIAL   #####                      
 ##### 
+function x = exponencial(ejeX,ejeY)
+  # sea y=be^ax  --> lny =lnb +ax --> Y=B +AX
+  vectorX = stringAArray (get (ejeX,"string"));  
+  vectorY = stringAArray (get (ejeY,"string"));
+  # Y = ln(ejeY)
+  Y=[];
+  cantidadPuntos = length(vectorX);
+  for i=1:cantidadPuntos 
+   Y(i) =log(vectorY(i)); 
+  endfor  
+  #su aproximacion es similar a la de la recta
+  sumX = sum(vectorX);
+  sumy =sum(vectorY);
+  sumY = sum(Y);
+  sumXY = 0;
+  sumX2 = 0;  #sumatoria de x^2
+
+  for i=1:cantidadPuntos
+   sumXY = sumXY + vectorX(i)*Y(i);
+   sumX2 = sumX2 + vectorX(i)^2 ;
+  endfor
+  
+  A = [sumX2,sumX;sumX,cantidadPuntos];
+  b = [sumXY;sumY];
+  Ai = inv(A);
+  x = Ai*b;
+  x(2)=exp(x(2)); 
+endfunction
 
 function funcionAproxExponencial(ejeX,ejeY,cantDecimales)
     
-  funcionAproximante = ejeX;
-    
-  helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
-end
+  h=exponencial(ejeX,ejeY);
+
+ helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"e^",num2str(h(1),str2num(get(cantDecimales,"string"))),"x"),"Exponte de minimo cuadrado");
+     
+endfunction
 
 ######                                                   
 ###   FUNCION APROXIMACION POTENCIAL   #####                      
@@ -412,9 +442,44 @@ endfunction
 ##### 
 
 function detalleCalculoExponencial(ejeX,ejeY,cantDecimales)
-  detalleCalculo = ejeX;
-    
-  helpdlg (evalc ("detalleCalculo"),"Detalle del cálculo");
+  vectorX = stringAArray (get (ejeX,"string"));  
+  vectorY = stringAArray (get (ejeY,"string"));
+
+  cantidadPuntos = length(vectorX);
+  str= "\ni \t xi \t yi\t Y=lny\t\t xi^2\t\t xi.Yi\n";
+  for i=1 :cantidadPuntos
+    str =strcat(str,num2str(i),"\t",num2str(vectorX(i)),"\t",num2str(vectorY(i)),"\t",num2str(log(vectorY(i))),"\t\t",num2str(vectorX(i)^2),"\t\t",num2str(vectorX(i)*log(vectorY(i)))," \n");
+  endfor
+  ####
+   Y=[];
+  for i=1:cantidadPuntos 
+   Y(i) =log(vectorY(i)); 
+  endfor  
+  #su aproximacion es similar a la de la recta
+  sumX = sum(vectorX);
+  sumy =sum(vectorY);
+  sumY = sum(Y);
+  sumXY = 0;
+  sumX2 = 0;  #sumatoria de x^2
+
+  for i=1:cantidadPuntos
+   sumXY = sumXY + vectorX(i)*Y(i);
+   sumX2 = sumX2 + vectorX(i)^2 ;
+  endfor
+  #####
+   
+       
+  str=strcat(str,"\t",num2str(sumX),"\t",num2str(sumy),"\t",num2str(sumY),"\t\t",num2str(sumX2),"\t\t",num2str(sumXY),"\n\n");
+  
+  h=exponencial(ejeX,ejeY); #S
+  
+  str=strcat(str,"El sistema planteado es\n\n",...
+       "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumX),"\t","=","\t",num2str(sumXY),"\n\n",...
+       "a *",num2str(sumX),"\t","+","\t","b *",num2str(cantidadPuntos),"\t","=","\t",num2str(sumY),"\n\n",...
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n",...
+      "\nla aproximacion exponencial es\n", num2str(h(2),str2num(get(cantDecimales,"string"))),"e ^( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"x )","\n");
+       
+  helpdlg (evalc ("str"),"Detalle del calculo");
 endfunction
 
 ######                                                   
@@ -638,4 +703,3 @@ function array = stringAArray (str)
 endfunction 
 
 abrirVentanaPrincipal();
-
