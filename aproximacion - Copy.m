@@ -6,13 +6,13 @@ pkg load signal;
 #####
 function abrirVentanaPrincipal ()
   ventanaPrincipal = figure;
-  set (ventanaPrincipal,"name","AMIC - Aproximación por Mí­nimos Cuadrados");
+  set (ventanaPrincipal,"name","AMIC - AproximaciÃ³n por MÃ­Â­nimos Cuadrados");
   set (ventanaPrincipal,"numbertitle","off");
   set (ventanaPrincipal,"color",[.5,.5,.5]);
   set (ventanaPrincipal,"menubar","none"); #barra de menu principal y herramientas desaparecen
 
   entornoPrincipal = uibuttongroup (ventanaPrincipal, "position", [ 0 0 1 1], ...
-                 "title","Elija una opción", ...
+                 "title","Elija una opciÃ³n", ...
                  "titleposition","centertop","fontsize",11,"fontname","Arial");
              
   botonCoeficientes = uicontrol (entornoPrincipal,"string","Aproximar", ...
@@ -80,41 +80,38 @@ endfunction
 #####  
 function seleccionMetodos (handlesource,event,ejeX,ejeY,cantDecimales)
   ventanaSeleccionMetodos = figure;
-  set (ventanaSeleccionMetodos,"name","Aproximación por mínimos cuadrados");
+  set (ventanaSeleccionMetodos,"name","AproximaciÃ³n por mÃ­nimos cuadrados");
   set (ventanaSeleccionMetodos,"numbertitle","off");
   
   entornoSeleccionMetodos = uibuttongroup (ventanaSeleccionMetodos, "position", [ 0 0 1 1], ...
-               "title","Elija el método de aproximación","titleposition","centertop");
+               "title","Elija el mÃ©todo de aproximaciÃ³n","titleposition","centertop");
                
                
-  botonRecta = uicontrol (entornoSeleccionMetodos,"string"," Recta de mí­nimos cuadrados", ...
+  botonRecta = uicontrol (entornoSeleccionMetodos,"string"," Recta de mÃ­Â­nimos cuadrados", ...
                "position",[150,350,250,30],"callback",...
                 {@opcionesAproximacion,ejeX,ejeY,cantDecimales,1}, ...             
                "backgroundcolor",[.8,.8,.8]);
            
-  botonParabola = uicontrol (entornoSeleccionMetodos,"string","Parábola de mínimos cuadrados", ...
+  botonParabola = uicontrol (entornoSeleccionMetodos,"string","ParÃ¡bola de mÃ­nimos cuadrados", ...
                "position",[150,300,250,30],"callback",...
                {@opcionesAproximacion,ejeX,ejeY,cantDecimales,2}, ...
                "backgroundcolor",[.8,.8,.8]);
 
-  botonExponencial = uicontrol (entornoSeleccionMetodos,"string","Aproximación Exponencial", ...
+  botonExponencial = uicontrol (entornoSeleccionMetodos,"string","AproximaciÃ³n Exponencial", ...
                "position",[150,250,250,30],"callback",...
                {@opcionesAproximacion,ejeX,ejeY,cantDecimales,3}, ...
                "backgroundcolor",[.8,.8,.8]);
                
-  botonPotencial = uicontrol (entornoSeleccionMetodos,"string","Aproximación Potencial", ...
+  botonPotencial = uicontrol (entornoSeleccionMetodos,"string","AproximaciÃ³n Potencial", ...
                "position",[150,200,250,30],"callback",...
                {@opcionesAproximacion,ejeX,ejeY,cantDecimales,4}, ...
                "backgroundcolor",[.8,.8,.8]);
                
-  botonHiperbola = uicontrol (entornoSeleccionMetodos,"string","Aproximación Hipérbola", ...
+  botonHiperbola = uicontrol (entornoSeleccionMetodos,"string","AproximaciÃ³n HipÃ©rbola", ...
                "position",[150,150,250,30],"callback",...
                {@opcionesAproximacion,ejeX,ejeY,cantDecimales,5}, ...
                "backgroundcolor",[.8,.8,.8]);
   
-  botonPCG = uicontrol (entornoSeleccionMetodos,"string","Comparar Aproximaciones", ...
-                   "position",[150,75,250,50],"callback",{@abrirVentanaComAprox}, ...
-                   "backgroundcolor",[.8,.8,.8]);
                    
   botonFinalizar = uicontrol (entornoSeleccionMetodos,"string","Finalizar", ...
                  "position",[25,25,150,30],"callback",{@cerrarVentana}, ...
@@ -127,24 +124,24 @@ endfunction
 ##### 
 function opcionesAproximacion (handlesource,event,ejeX,ejeY,cantDecimales,metodo)
   ventanaOpcionesAproximacion = figure;
-  set (ventanaOpcionesAproximacion,"name","Aproximación por mínimos cuadrados");
+  set (ventanaOpcionesAproximacion,"name","AproximaciÃ³n por mÃ­nimos cuadrados");
   set (ventanaOpcionesAproximacion,"numbertitle","off");
   
   entornoOpcionesAproximacion = uibuttongroup (ventanaOpcionesAproximacion, "position", [ 0 0 1 1], ...
-               "title","Seleccione la opción que desea realizar","titleposition","centertop");
+               "title","Seleccione la opciÃ³n que desea realizar","titleposition","centertop");
                
 
-  botonFuncion = uicontrol (entornoOpcionesAproximacion,"string","Mostrar función aproximante", ...
+  botonFuncion = uicontrol (entornoOpcionesAproximacion,"string","Mostrar funciÃ³n aproximante", ...
                "position",[150,250,250,30],"callback",...
                {@funcionAproximante,ejeX,ejeY,cantDecimales,metodo}, ...
                "backgroundcolor",[.8,.8,.8]);
                
-  botonCalculo = uicontrol (entornoOpcionesAproximacion,"string","Obtener detalle del cálculo", ...
+  botonCalculo = uicontrol (entornoOpcionesAproximacion,"string","Obtener detalle del cÃ¡lculo", ...
                "position",[150,200,250,30],"callback",...
                {@detalleCalculo,ejeX,ejeY,cantDecimales,metodo}, ...
                "backgroundcolor",[.8,.8,.8]);
                
-  botonGrafico = uicontrol (entornoOpcionesAproximacion,"string","Gráfico función y puntos", ...
+  botonGrafico = uicontrol (entornoOpcionesAproximacion,"string","GrÃ¡fico funciÃ³n y puntos", ...
                "position",[150,150,250,30],"callback",...
                {@grafico,ejeX,ejeY,cantDecimales,metodo}, ...
                "backgroundcolor",[.8,.8,.8]);
@@ -178,7 +175,7 @@ function funcionAproximante (handlesource,event,ejeX,ejeY,cantDecimales,metodo)
  
   
   entornoFuncionAproximante = uibuttongroup (ventanaFuncionAproximante, "position", [ 0 0 1 1], ...
-               "title","Función Aproximante","titleposition","centertop");
+               "title","FunciÃ³n Aproximante","titleposition","centertop");
                
 
   funcionAprox = uicontrol (entornoFuncionAproximante,"style","text", ...
@@ -194,7 +191,7 @@ endfunction
 function funcionAproxRecta(ejeX,ejeY,cantDecimales) 
  h=recta(ejeX,ejeY);
 
- helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x +",num2str(h(2),str2num(get(cantDecimales,"string")))),"Recta mínimo cuadrado");
+ helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x +",num2str(h(2),str2num(get(cantDecimales,"string")))),"Recta mÃ­nimo cuadrado");
      
 endfunction
    
@@ -225,12 +222,47 @@ endfunction
 ###   FUNCION APROXIMACION PARABOLA   #####                      
 ##### 
 
+
 function funcionAproxParabola(ejeX,ejeY,cantDecimales)
-    
-  funcionAproximante = ejeX;
-    
-  helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
-end
+  h=parabola(ejeX,ejeY);
+  helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
+           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(3),str2num(get(cantDecimales,"string")))),...
+           "Parabola minimo cuadrado");
+  
+ # helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
+endfunction
+
+function x = parabola(ejeX,ejeY)
+  # sea ax^2+bx +c en el vector se guarda a,b,c
+  vectorX = stringAArray (get (ejeX,"string"));  
+  vectorY = stringAArray (get (ejeY,"string"));
+  
+  cantidadPuntos = length(vectorX);
+  sumX    = sum(vectorX);
+  sumY    = sum(vectorY);
+  sumX2   = 0;  #sumatoria de x^2
+  sumx3   = 0;
+  sumx4   = 0;
+  sumXY   = 0;
+  sumx2y  = 0;
+  
+  for i=1:cantidadPuntos
+
+   sumX2  = sumX2 + vectorX(i)^2 ;
+   sumx3  = sumx3 + vectorX(i)^3 ;
+   sumx4  = sumx4 + vectorX(i)^4 ;
+   sumXY  = sumXY + vectorX(i)*vectorY(i);
+   sumx2y = sumx2y + vectorX(i)^2*vectorY(i);
+  
+  endfor
+  
+  A = [cantidadPuntos,sumX,sumX2;sumX,sumX2,sumx3;sumX2,sumx3,sumx4];
+  b = [sumY;sumXY;sumx2y];
+  Ai = inv(A);
+  x = Ai*b;
+   
+endfunction
+
 
 ######                                                   
 ###   FUNCION APROXIMACION EXPONENCIAL   #####                      
@@ -287,7 +319,7 @@ function detalleCalculo (handlesource,event,ejeX,ejeY,cantDecimales,metodo)
   endif
  
   entornoDetalleCalculo = uibuttongroup (ventanaDetalleCalculo, "position", [ 0 0 1 1], ...
-               "title","Detalle cálculo","titleposition","centertop");
+               "title","Detalle cÃ¡lculo","titleposition","centertop");
                
   detalleCalc = uicontrol (entornoDetalleCalculo,"style","text", ...
                "string",entornoDetalleCalculo,"position",[100,250,300,40], ... 
@@ -337,9 +369,42 @@ endfunction
 ##### 
 
 function detalleCalculoParabola(ejeX,ejeY,cantDecimales)
-  detalleCalculo = ejeX;
-    
-  helpdlg (evalc ("detalleCalculo"),"Detalle del cálculo");
+  vectorX = stringAArray (get (ejeX,"string"));  
+  vectorY = stringAArray (get (ejeY,"string"));
+
+  cantidadPuntos = length(vectorX);
+  str= "\ni \t xi \t yi\t xi^2\t xi^3\t\t xi^4\t\t xi.yi\t  xi^2.yi\n";
+  for i=1 :cantidadPuntos
+    str =strcat(str,num2str(i),"\t",num2str(vectorX(i)),"\t",num2str(vectorY(i)),"\t",num2str(vectorX(i)^2),"\t",num2str(vectorX(i)^3),"\t\t",num2str(vectorX(i)^4),"\t\t",num2str(vectorX(i)*vectorY(i)),"\t",num2str(vectorX(i)^2*vectorY(i))," \n");
+  endfor
+  sumX = sum(vectorX);
+  sumY = sum(vectorY);
+  sumXY=0;
+  sumX2=0;  #sumatoria de x^2
+  sumx3   = 0;
+  sumx4   = 0;
+  sumXY   = 0;
+  sumx2y  = 0;
+  for i=1:cantidadPuntos
+    sumXY = sumXY + vectorX(i)*vectorY(i);
+    sumX2 = sumX2 + vectorX(i)^2 ;
+    sumx3  = sumx3 + vectorX(i)^3 ;
+    sumx4  = sumx4 + vectorX(i)^4 ;
+    sumx2y = sumx2y + vectorX(i)^2*vectorY(i);
+  endfor 
+       
+  str=strcat(str,"\t",num2str(sumX),"\t",num2str(sumY),"\t",num2str(sumX2),"\t",num2str(sumx3),"\t\t",num2str(sumx4),"\t\t",num2str(sumXY),"\t",num2str(sumx2y),"\n\n");
+  
+  h=parabola(ejeX,ejeY); #S
+  
+  str=strcat(str,"El sistema planteado es\n\n",...
+       "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","c *",num2str(sumX2),"\t","=","\t",num2str(sumY),"\n\n",...
+       "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","c *",num2str(sumx3),"\t","=","\t",num2str(sumXY),"\n\n",...
+       "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumx3),"\t","+","\t","c *",num2str(sumx4),"\t","=","\t",num2str(sumx2y),"\n\n",...
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","c =",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n\n",...
+       num2str(h(1),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n");
+       
+  helpdlg (evalc ("str"),"Detalle del calculo");
 endfunction
 
 ######                                                   
@@ -349,7 +414,7 @@ endfunction
 function detalleCalculoExponencial(ejeX,ejeY,cantDecimales)
   detalleCalculo = ejeX;
     
-  helpdlg (evalc ("detalleCalculo"),"Detalle del cálculo");
+  helpdlg (evalc ("detalleCalculo"),"Detalle del cÃ¡lculo");
 endfunction
 
 ######                                                   
@@ -359,7 +424,7 @@ endfunction
 function detalleCalculoPotencial(ejeX,ejeY,cantDecimales)
   detalleCalculo = ejeX;
     
-  helpdlg (evalc ("detalleCalculo"),"Detalle del cálculo");  
+  helpdlg (evalc ("detalleCalculo"),"Detalle del cÃ¡lculo");  
 endfunction
 
 ######                                                   
@@ -369,7 +434,7 @@ endfunction
 function detalleCalculoHiperbola(ejeX,ejeY,cantDecimales)
   detalleCalculo = ejeX;
     
-  helpdlg (evalc ("detalleCalculo"),"Detalle del cálculo");  
+  helpdlg (evalc ("detalleCalculo"),"Detalle del cÃ¡lculo");  
 endfunction
 
 ###################################################################################
@@ -410,7 +475,7 @@ endfunction
 function graficoRecta(ejeX,ejeY,cantDecimales) 
 
   grafico = figure;
-  set (grafico,"name","Gráfica de la función");
+  set (grafico,"name","GrÃ¡fica de la funciÃ³n");
   set (grafico,"numbertitle","off");
   
   x = stringAArray (get (ejeX,"string")); %eje x
@@ -427,7 +492,7 @@ function graficoRecta(ejeX,ejeY,cantDecimales)
   xlabel('x')
   ylabel('y')
   grid on
-  title('Recta de mínimos cuadrados')
+  title('Recta de mÃ­nimos cuadrados')
   hold off
    
 endfunction
@@ -439,7 +504,7 @@ endfunction
 function graficoParabola(ejeX,ejeY,cantDecimales)
   
   grafico = figure;
-  set (grafico,"name","Gráfica de la función");
+  set (grafico,"name","GrÃ¡fica de la funciÃ³n");
   set (grafico,"numbertitle","off");
 
   x = stringAArray (get (ejeX,"string")); %eje x
@@ -457,7 +522,7 @@ function graficoParabola(ejeX,ejeY,cantDecimales)
   xlabel('x')
   ylabel('y')
   grid on
-  title('Parábola de mínimos cuadrados')
+  title('ParÃ¡bola de mÃ­nimos cuadrados')
   hold off
 
 endfunction
@@ -469,7 +534,7 @@ endfunction
 function graficoExponencial(ejeX,ejeY,cantDecimales)
   
   grafico = figure;
-  set (grafico,"name","Gráfica de la función");
+  set (grafico,"name","GrÃ¡fica de la funciÃ³n");
   set (grafico,"numbertitle","off");
   
   x = stringAArray (get (ejeX,"string")); %eje x
@@ -485,7 +550,7 @@ function graficoExponencial(ejeX,ejeY,cantDecimales)
   xlabel('x')
   ylabel('y')
   grid on
-  title('Aproximación Exponencial')
+  title('AproximaciÃ³n Exponencial')
   hold off
   
 endfunction
@@ -496,7 +561,7 @@ endfunction
 
 function graficoPotencial(ejeX,ejeY,cantDecimales)
   grafico = figure;
-  set (grafico,"name","Gráfica de la función");
+  set (grafico,"name","GrÃ¡fica de la funciÃ³n");
   set (grafico,"numbertitle","off");
   
   x = stringAArray (get (ejeX,"string")); %eje x
@@ -512,7 +577,7 @@ function graficoPotencial(ejeX,ejeY,cantDecimales)
   xlabel('x')
   ylabel('y')
   grid on
-  title('Aproximación Potencial')
+  title('AproximaciÃ³n Potencial')
   hold off
 
 endfunction
@@ -523,7 +588,7 @@ endfunction
 
 function graficoHiperbola(ejeX,ejeY,cantDecimales)
   grafico = figure;
-  set (grafico,"name","Gráfica de la función");
+  set (grafico,"name","GrÃ¡fica de la funciÃ³n");
   set (grafico,"numbertitle","off");
   
   x = stringAArray (get (ejeX,"string")); %eje x
@@ -539,7 +604,7 @@ function graficoHiperbola(ejeX,ejeY,cantDecimales)
   xlabel('x')
   ylabel('y')
   grid on
-  title('Aproximación Hipérbola')
+  title('AproximaciÃ³n HipÃ©rbola')
   hold off
   
 endfunction
@@ -574,4 +639,3 @@ endfunction
 
 abrirVentanaPrincipal();
 
-             
