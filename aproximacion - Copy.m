@@ -227,8 +227,8 @@ endfunction
 
 function funcionAproxParabola(ejeX,ejeY,cantDecimales)
   h=parabola(ejeX,ejeY);
-  helpdlg (strcat("y=",num2str(h(3),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
-           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(1),str2num(get(cantDecimales,"string"))),...
+  helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
+           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(3),str2num(get(cantDecimales,"string"))),...
            "\t\t\t\t"),"Parabola minimo cuadrado");
   
  # helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
@@ -498,7 +498,7 @@ function detalleCalculoParabola(ejeX,ejeY,cantDecimales)
        "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","c *",num2str(sumx3),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumx3),"\t","+","\t","c *",num2str(sumx4),"\t","=","\t",num2str(sumx2y),"\n\n",...
        "Resolviendo el sistema queda\n\n","a =",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","c =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n\n",...
-       num2str(h(3),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n");
+       num2str(h(1),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n");
        
   helpdlg (evalc ("str"),"Detalle del calculo");
 endfunction
@@ -700,7 +700,8 @@ endfunction
 ##### 
 
 function graficoParabola(ejeX,ejeY,cantDecimales)
-  
+  # x = linspace(1,10); y = 1.*x.*x - 8.*x + 15; plot(x,y) hold on; 
+  #grid() rts = roots([1,-8,15]); plot(rts, zeros(size(rts)), 'o', "color", "r")
   grafico = figure;
   set (grafico,"name","Gráfica de la función");
   set (grafico,"numbertitle","off");
@@ -709,6 +710,7 @@ function graficoParabola(ejeX,ejeY,cantDecimales)
   y = stringAArray (get (ejeY,"string")); %eje y
   
   P = polyfit(x, y, 2)
+  h=parabola(ejeX,ejeY);
   a = P(1) 
   b = P(2) 
   c = P(3) 
@@ -716,7 +718,7 @@ function graficoParabola(ejeX,ejeY,cantDecimales)
   hold on 
   plot(x,y,'ro','markersize',4,'markerfacecolor','r') 
   
-  plot(x, a*(x.^2)+b*x+c);
+  plot(x, h(1)*(x.^2)+b*x+c);
   xlabel('x')
   ylabel('y')
   grid on
