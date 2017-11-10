@@ -800,10 +800,14 @@ function graficoHiperbola(ejeX,ejeY,cantDecimales)
   y = stringAArray (get (ejeY,"string")); %eje y
 
   p = hiperbola(ejeX,ejeY);
-  z = (p(2)./(p(1) + x));
+  h=0:0.1:34;
+  h1=34.8:0.1:60;
+  z = (p(2)./(p(1) + h));
+  z1 = (p(2)./(p(1) + h1));
   hold on
   plot(x,y,'ro','markersize',4,'markerfacecolor','r')
-  plot(x, z);
+  plot(h, z,'b');
+  plot(h1, z1,'b');
   xlabel('x')
   ylabel('y')
   grid on
@@ -850,8 +854,8 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
   
   #Tabla comparaciones
   str1 ="\n _________________________________________________________________________________________________________________________________________________________________\n";
-  str = "\n \t Datos \t         | \t   Modelos Aproximantes  \t   \t  | \t \t    Error  ";
-  str = strcat(str1,str,str1,"\n i \0 Xi \0 Yi   \0   Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola  \0 | \0  Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola \0 ",str1);
+  str = "\n  Datos    \0  | \t\t   Modelos Aproximantes  \t   \t  | \t\t \t\t    Error  ";
+  str = strcat(str1,str,str1,"\n i \0 Xi \0 Yi   \0 \0 \0   Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola  \0 | \t  Recta \t\t Parabola \t Exponencial \t Potencial \t Hiperbola \0 ",str1);
    totalerrorRecta=0;
   totalerrorParabola=0;
   totalerrorExponencial=0;
@@ -873,8 +877,8 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
     errorHiperbola = (vectorY(i)-hiperbola)^2;
     
     str = strcat(str,num2str(i)," \0 \0 \0 \0 ",num2str(vectorX(i))," \0 \0 \0 \0 ",num2str(vectorY(i)),"\t",num2str(recta),"\t",num2str(parabola),...
-              "\t \0 \0 ",num2str(exponencial),"\t \0 \0 \0 \0 \0 \0 ",num2str(potencial),"\t \0 \0 \0  ",num2str(hiperbola),"\t\t",num2str(errorRecta),"\t\t",num2str(errorParabola),...
-              "\t\t",num2str(errorExponencial),"\t\t",num2str(errorPotencial),"\t\t",num2str(errorHiperbola),str1);
+              "\t \0 \0 ",num2str(exponencial),"\t \0 \0 \0 \0 \0 \0 ",sprintf("%.5f",potencial),"\t \0 \0 \0  ",sprintf("%.5f",hiperbola),"\t \0 \0 \0  ",num2str(errorRecta),"\t",num2str(errorParabola),...
+              "\t\t",num2str(errorExponencial),"\t\t",sprintf("%.5f",errorPotencial),"\t\t",num2str(errorHiperbola),str1);
               
     totalerrorRecta = totalerrorRecta + errorRecta;
     totalerrorParabola = totalerrorParabola + errorParabola;
@@ -884,7 +888,7 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
  
   endfor
 
-     
+  str=strcat(str,"\n\n Se calculo la suma de los cuadrados de las distancias de cada funcion\n");   
   str=strcat(str," \n\n El metodo que mejor se aproxima es:","\t");
   matriz=[totalerrorRecta,totalerrorParabola,totalerrorExponencial,totalerrorPotencial,totalerrorHiperbola];
   cantidadMetodos = length(matriz);
