@@ -7,7 +7,7 @@ pkg load signal;
 #####
 function abrirVentanaPrincipal ()
   ventanaPrincipal = figure;
-  set (ventanaPrincipal,"name","AMIC - Aproximacion por Mi要imos Cuadrados");
+  set (ventanaPrincipal,"name","AMIC - Aproximacion por Mi簫nimos Cuadrados");
   set (ventanaPrincipal,"numbertitle","off");
   set (ventanaPrincipal,"color",[.5,.5,.5]);
   set (ventanaPrincipal,"menubar","none"); #barra de menu principal y herramientas desaparecen
@@ -82,14 +82,14 @@ endfunction
 #####  
 function seleccionMetodos (handlesource,event,ejeX,ejeY,cantDecimales)
   ventanaSeleccionMetodos = figure;
-  set (ventanaSeleccionMetodos,"name","Aproximacion por mi要imos cuadrados");
+  set (ventanaSeleccionMetodos,"name","Aproximacion por mi簫nimos cuadrados");
   set (ventanaSeleccionMetodos,"numbertitle","off");
   
   entornoSeleccionMetodos = uibuttongroup (ventanaSeleccionMetodos, "position", [ 0 0 1 1], ...
                "title","Elija el metodo de aproximacion","titleposition","centertop");
                
                
-  botonRecta = uicontrol (entornoSeleccionMetodos,"string"," Recta de mi要imos cuadrados", ...
+  botonRecta = uicontrol (entornoSeleccionMetodos,"string"," Recta de mi簫nimos cuadrados", ...
                "position",[150,350,250,30],"callback",...
                 {@opcionesAproximacion,ejeX,ejeY,cantDecimales,1}, ...             
                "backgroundcolor",[.8,.8,.8]);
@@ -230,8 +230,8 @@ endfunction
 
 function funcionAproxParabola(ejeX,ejeY,cantDecimales)
   h=parabola(ejeX,ejeY);
-  helpdlg (strcat("y=",num2str(h(3),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
-           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(1),str2num(get(cantDecimales,"string"))),...
+  helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
+           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(3),str2num(get(cantDecimales,"string"))),...
            "\t\t\t\t"),"Parabola minimo cuadrado");
   
  # helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
@@ -500,12 +500,11 @@ function detalleCalculoParabola(ejeX,ejeY,cantDecimales)
        "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","c *",num2str(sumX2),"\t","=","\t",num2str(sumY),"\n\n",...
        "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","c *",num2str(sumx3),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumx3),"\t","+","\t","c *",num2str(sumx4),"\t","=","\t",num2str(sumx2y),"\n\n",...
-       "Resolviendo el sistema queda\n\n","a =",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","c =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n\n",...
-       num2str(h(3),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n");
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","c =",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n\n",...
+       num2str(h(1),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n");
        
-  helpdlg (evalc ("str"),"Detalle del calculo  \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");
+  helpdlg (evalc ("str"),"Detalle del calculo\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 endfunction
-
 ######                                                   
 ###   DETALLE CALCULO EXPONENCIAL   #####                      
 ##### 
@@ -705,26 +704,26 @@ endfunction
 function graficoParabola(ejeX,ejeY,cantDecimales)
   
   grafico = figure;
-  set (grafico,"name","Grafica de la funcion");
+  set (grafico,"name","Gr獺fica de la funci籀n");
   set (grafico,"numbertitle","off");
 
-  x = stringAArray (get (ejeX,"string")); %eje x
-  y = stringAArray (get (ejeY,"string")); %eje y
+  puntosX = stringAArray (get (ejeX,"string")); %eje x
+  puntosY = stringAArray (get (ejeY,"string")); %eje y
   
-  P = polyfit(x, y, 2)
-  a = P(1) 
-  b = P(2) 
-  c = P(3) 
+  P = polyfit(puntosX, puntosY, 2);
+
   
   hold on 
-  plot(x,y,'ro','markersize',4,'markerfacecolor','r') 
-  
-  plot(x, a*(x.^2)+b*x+c);
+  plot(puntosX,puntosY,'ro','markersize',4,'markerfacecolor','r') 
+  h=parabola(ejeX,ejeY);
+   x=-7:0.2:7; 
+ y1=h(1)*x.^2 +h(2)*x +h(3);
+  plot(x,y1);
   xlabel('x')
   ylabel('y')
-  grid on
-  title('Parabola de mi要imos cuadrados')
-  hold off
+  
+  title('Par獺bola de m穩nimos cuadrados')
+  
 
 endfunction
 
