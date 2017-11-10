@@ -385,16 +385,18 @@ function x= hiperbola(ejeX,ejeY)
   b = [sumY;sumXY];
   Ai = inv(A);
   x = Ai*b;  # x(1)=B  x(2)=A 
-  
+  b=x(1);
+  a=x(2);
+  x(1)=(b/a);
+  x(2)=(1/a);
  endfunction 
   
 function funcionAproxHiperbola(ejeX,ejeY,cantDecimales)
     
   h=hiperbola(ejeX,ejeY);
     
-  helpdlg (strcat("y=",(num2str(1/h(2),str2num(get(cantDecimales,"string")))),"/(",(num2str(h(1)/h(2),str2num(get(cantDecimales,"string")))),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
+  helpdlg (strcat("y=",(num2str(h(2),str2num(get(cantDecimales,"string")))),"/(",(num2str(h(1),str2num(get(cantDecimales,"string")))),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
 end
-
 ###################################################################################
 #                              DETALLE CALCULO                                    #
 ###################################################################################   
@@ -630,7 +632,7 @@ function detalleCalculoHiperbola(ejeX,ejeY,cantDecimales)
      "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","=","\t",num2str(sumY),"\n\n",...
      "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","=","\t",num2str(sumXY),"\n\n",...
      "Resolviendo el sistema queda\n\n","a =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","\n\n",...
-     num2str(1/h(2),str2num(get(cantDecimales,"string"))),"/( ",num2str(h(1)/h(2),str2num(get(cantDecimales,"string"))),"+ X )\n");
+     num2str(h(2),str2num(get(cantDecimales,"string"))),"/( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"+ X )\n");
 
   helpdlg (evalc ("str"),"Detalle del calculo \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");  
   
@@ -794,16 +796,13 @@ function graficoHiperbola(ejeX,ejeY,cantDecimales)
   set (grafico,"name","Grafica de la funcion");
   set (grafico,"numbertitle","off");
   
-  X = stringAArray (get (ejeX,"string")); %eje x
+  x = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  P = polyfit(X,1/y,1);
-  a = P(1); 
-  b = P(2); 
+  p = hiperbola(ejeX,ejeY);
+  z = (p(2)./(p(1) + x));
   hold on
-  plot(X,y,'ro','markersize',4,'markerfacecolor','r')
-  x=-40:0.1:100;
-  z = a./(x+b);
+  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
   plot(x, z);
   xlabel('x')
   ylabel('y')
