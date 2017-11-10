@@ -350,7 +350,7 @@ endfunction
 
 function funcionAproxPotencial(ejeX,ejeY,cantDecimales)
     
-  h=exponencial(ejeX,ejeY);
+  h=potencial(ejeX,ejeY);
 
  helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"*e^(",num2str(h(1),str2num(get(cantDecimales,"string"))),"x\t\t\t\t\t\t"),"Potencial de minimo cuadrado");
 end
