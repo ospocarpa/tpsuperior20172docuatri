@@ -6,7 +6,7 @@ pkg load signal;
 #####
 function abrirVentanaPrincipal ()
   ventanaPrincipal = figure;
-  set (ventanaPrincipal,"name","AMIC - Aproximacion por Minimos Cuadrados");
+  set (ventanaPrincipal,"name","AMIC - Aproximacion por Mi­nimos Cuadrados");
   set (ventanaPrincipal,"numbertitle","off");
   set (ventanaPrincipal,"color",[.5,.5,.5]);
   set (ventanaPrincipal,"menubar","none"); #barra de menu principal y herramientas desaparecen
@@ -81,7 +81,7 @@ endfunction
 #####  
 function seleccionMetodos (handlesource,event,ejeX,ejeY,cantDecimales)
   ventanaSeleccionMetodos = figure;
-  set (ventanaSeleccionMetodos,"name","Aproximacion por minimos cuadrados");
+  set (ventanaSeleccionMetodos,"name","Aproximacion por mi­nimos cuadrados");
   set (ventanaSeleccionMetodos,"numbertitle","off");
   
   entornoSeleccionMetodos = uibuttongroup (ventanaSeleccionMetodos, "position", [ 0 0 1 1], ...
@@ -385,17 +385,14 @@ function x= hiperbola(ejeX,ejeY)
   b = [sumY;sumXY];
   Ai = inv(A);
   x = Ai*b;  # x(1)=B  x(2)=A 
-  b=x(1);
-  a=x(2);
-  x(1)=(b/a);
-  x(2)=(1/a);
+  
  endfunction 
   
 function funcionAproxHiperbola(ejeX,ejeY,cantDecimales)
     
   h=hiperbola(ejeX,ejeY);
     
-  helpdlg (strcat("y=",(num2str(h(2),str2num(get(cantDecimales,"string")))),"/(",(num2str(h(1),str2num(get(cantDecimales,"string")))),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
+  helpdlg (strcat("y=",(num2str(1/h(2),str2num(get(cantDecimales,"string")))),"/(",(num2str(h(1)/h(2),str2num(get(cantDecimales,"string")))),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
 end
 
 ###################################################################################
@@ -633,7 +630,7 @@ function detalleCalculoHiperbola(ejeX,ejeY,cantDecimales)
      "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","=","\t",num2str(sumY),"\n\n",...
      "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","=","\t",num2str(sumXY),"\n\n",...
      "Resolviendo el sistema queda\n\n","a =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","\n\n",...
-     num2str(h(2),str2num(get(cantDecimales,"string"))),"/( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"+ X )\n");
+     num2str(1/h(2),str2num(get(cantDecimales,"string"))),"/( ",num2str(h(1)/h(2),str2num(get(cantDecimales,"string"))),"+ X )\n");
 
   helpdlg (evalc ("str"),"Detalle del calculo \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");  
   
@@ -706,25 +703,27 @@ endfunction
 function graficoParabola(ejeX,ejeY,cantDecimales)
   
   grafico = figure;
-  set (grafico,"name","Grafica de la funcion");
+  set (grafico,"name","Gráfica de la función");
   set (grafico,"numbertitle","off");
 
-  x = stringAArray (get (ejeX,"string")); %eje x
-  y = stringAArray (get (ejeY,"string")); %eje y
+  puntosX = stringAArray (get (ejeX,"string")); %eje x
+  puntosY = stringAArray (get (ejeY,"string")); %eje y
   
-  P = polyfit(x, y, 2);
-  a=P(1);
-  b=P(2);
-  c=P(3);
+  P = polyfit(puntosX, puntosY, 2);
+
   
-  hold on
-  plot(x,y,'ro','markersize',4,'markerfacecolor','r') 
-  plot(x,a*x.^2+b*x+c);
+  hold on 
+  plot(puntosX,puntosY,'ro','markersize',4,'markerfacecolor','r') 
+  h=parabola(ejeX,ejeY);
+   x=-7:0.2:7; 
+ y1=h(1)*x.^2 +h(2)*x +h(3);
+  plot(x,y1);
   xlabel('x')
   ylabel('y')
-  grid on
-  title('Parabola de mi�nimos cuadrados')
-  hold off
+  
+  title('Parábola de mínimos cuadrados')
+  
+
 endfunction
 
 ######                                                   
@@ -737,14 +736,18 @@ function graficoExponencial(ejeX,ejeY,cantDecimales)
   set (grafico,"name","Grafica de la funcion");
   set (grafico,"numbertitle","off");
   
-  x = stringAArray (get (ejeX,"string")); %eje x
+  X = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  p = exponencial(ejeX,ejeY);
-  
+  P = polyfit(X,log(y),1);
+  a = P(1); 
+  b = P(2);
   hold on
-  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
-  plot(x,p(2)*exp(x*p(1)));
+  plot(X,y,'ro','markersize',4,'markerfacecolor','r')
+  x=-20:0.1:30;
+  z = b*exp(a*x);
+  plot(x, z);
+  
   xlabel('x')
   ylabel('y')
   grid on
@@ -752,7 +755,6 @@ function graficoExponencial(ejeX,ejeY,cantDecimales)
   hold off
   
 endfunction
-
 
 ######                                                   
 ###   GRAFICO POTENCIAL   #####                      
@@ -763,14 +765,18 @@ function graficoPotencial(ejeX,ejeY,cantDecimales)
   set (grafico,"name","Grafica de la funcion");
   set (grafico,"numbertitle","off");
   
-  x = stringAArray (get (ejeX,"string")); %eje x
+  X = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  p = potencial(ejeX,ejeY);
-  z = (p(2))*x.^p(1);
+  P = polyfit(log(X),log(y),1);
+  a = P(1); 
+  b = P(2);
   hold on
-  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
+  plot(X,y,'ro','markersize',4,'markerfacecolor','r')
+  x=-10:0.1:10;
+  z = b*x.^a;
   plot(x, z);
+  
   xlabel('x')
   ylabel('y')
   grid on
@@ -788,13 +794,16 @@ function graficoHiperbola(ejeX,ejeY,cantDecimales)
   set (grafico,"name","Grafica de la funcion");
   set (grafico,"numbertitle","off");
   
-  x = stringAArray (get (ejeX,"string")); %eje x
+  X = stringAArray (get (ejeX,"string")); %eje x
   y = stringAArray (get (ejeY,"string")); %eje y
 
-  p = hiperbola(ejeX,ejeY);
-  z = (p(2)./(p(1) + x));
+  P = polyfit(X,1/y,1);
+  a = P(1); 
+  b = P(2); 
   hold on
-  plot(x,y,'ro','markersize',4,'markerfacecolor','r')
+  plot(X,y,'ro','markersize',4,'markerfacecolor','r')
+  x=-40:0.1:100;
+  z = a./(x+b);
   plot(x, z);
   xlabel('x')
   ylabel('y')
@@ -841,10 +850,16 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
   bHip = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
   
   #Tabla comparaciones
+  str1 ="\n _________________________________________________________________________________________________________________________________________________________________\n";
   str = "\n \t Datos \t         | \t   Modelos Aproximantes  \t   \t  | \t \t    Error  ";
-  str = strcat(str,"\n i | Xi | Yi    |   Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola  \0 | \0  Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola \0 \n");
+  str = strcat(str1,str,str1,"\n i \0 Xi \0 Yi   \0   Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola  \0 | \0  Recta \0 Parabola \0 Exponencial \0 Potencial \0 Hiperbola \0 ",str1);
+   totalerrorRecta=0;
+  totalerrorParabola=0;
+  totalerrorExponencial=0;
+  totalerrorPotencial=0;
+  totalerrorHiperbola=0;
   
-  for i=1 :cantidadPuntos
+ for i=1 :cantidadPuntos
 
     recta = aRec*vectorX(i) + bRec; 
     parabola =  (aPar*(vectorX(i)^2)) + (bPar*vectorX(i)) + vectorX(i); 
@@ -858,9 +873,9 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
     errorPotencial = (vectorY(i)-potencial)^2;
     errorHiperbola = (vectorY(i)-hiperbola)^2;
     
-    str = strcat(str,num2str(i),"\t",num2str(vectorX(i)),"|",num2str(vectorY(i)),"\t\t",num2str(recta),"\t",num2str(parabola),...
-              "\t",num2str(exponencial),"\t",num2str(potencial),"\t",num2str(hiperbola),"\t\t",num2str(errorRecta),"\t\t",num2str(errorParabola),...
-              "\t\t",num2str(errorExponencial),"\t\t",num2str(errorPotencial),"\t\t",num2str(errorHiperbola)," \n");
+    str = strcat(str,num2str(i)," \0 \0 \0 \0 ",num2str(vectorX(i))," \0 \0 \0 \0 ",num2str(vectorY(i)),"\t",num2str(recta),"\t",num2str(parabola),...
+              "\t \0 \0 ",num2str(exponencial),"\t \0 \0 \0 \0 \0 \0 ",num2str(potencial),"\t \0 \0 \0  ",num2str(hiperbola),"\t\t",num2str(errorRecta),"\t\t",num2str(errorParabola),...
+              "\t\t",num2str(errorExponencial),"\t\t",num2str(errorPotencial),"\t\t",num2str(errorHiperbola),str1);
               
     totalerrorRecta = totalerrorRecta + errorRecta;
     totalerrorParabola = totalerrorParabola + errorParabola;
@@ -871,8 +886,8 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
   endfor
 
      
-  str=strcat(str," \n\n El metodo que mejor se aproxima es:\n\n","\n");
-  matriz=[totalerrorRecta,totalerrorParabola,totalerrorExponencial,totalerrorPotencia,totalerrorHiperbola];
+  str=strcat(str," \n\n El metodo que mejor se aproxima es:","\t");
+  matriz=[totalerrorRecta,totalerrorParabola,totalerrorExponencial,totalerrorPotencial,totalerrorHiperbola];
   cantidadMetodos = length(matriz);
   metodoMinimoError = min(matriz);
   
@@ -880,23 +895,23 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
     switch(i)
      case 1
        if (matriz(i)==metodoMinimoError)
-           str=strcat(str," \n\n Recta de Minimos Cuadrados\n\n","\n");
+           str=strcat(str,"  Recta de Minimos Cuadrados\n\n","\n");
        endif
       case 2 
            if (matriz(i)==metodoMinimoError)
-           str=strcat(str," \n\n Parabola de Minimos Cuadrados\n\n","\n");
+           str=strcat(str,"  Parabola de Minimos Cuadrados\n\n","\n");
            endif
       case 3 
            if (matriz(i)==metodoMinimoError)
-            str=strcat(str," \n\n Exponencial de Minimos Cuadrados\n\n","\n");
+            str=strcat(str,"  Exponencial de Minimos Cuadrados\n\n","\n");
            endif
       case 4 
            if (matriz(i)==metodoMinimoError)
-           str=strcat(str," \n\n Potencial de Minimos Cuadrados\n\n","\n");
+           str=strcat(str,"  Potencial de Minimos Cuadrados\n\n","\n");
            endif
       case 5 
            if (matriz(i)==metodoMinimoError)
-           str=strcat(str," \n\n Hiperbola de Minimos Cuadrados\n\n","\n");
+           str=strcat(str,"  Hiperbola de Minimos Cuadrados\n\n","\n");
            endif
    endswitch
   endfor
