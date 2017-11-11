@@ -6,7 +6,7 @@ pkg load signal;
 #####
 function abrirVentanaPrincipal ()
   ventanaPrincipal = figure;
-  set (ventanaPrincipal,"name","AMIC - Aproximacion por Mi­nimos Cuadrados");
+  set (ventanaPrincipal,"name","AMIC - Aproximacion por Minimos Cuadrados");
   set (ventanaPrincipal,"numbertitle","off");
   set (ventanaPrincipal,"color",[.5,.5,.5]);
   set (ventanaPrincipal,"menubar","none"); #barra de menu principal y herramientas desaparecen
@@ -46,14 +46,14 @@ function abrirVentanaAproximar (handlesource,event)
                "string","Eje x:","position",[100,350,300,40], ... 
                "fontsize",16);
   ejeX = uicontrol (entornoAproximar, "style", "edit", ...
-               "string", "1,6,8,9", "position",[120,310,290,40], ...
+               "string", "1.2,2.1,2.8,3.1,3.5,4.1,4.4,4.9,5.6,5.9,6.2,6.5", "position",[120,310,290,40], ...
                "fontsize",14,"backgroundcolor",[.5,.5,.5]);              
                
   textoEjeY = uicontrol (entornoAproximar,"style","text", ...
                "string","Eje y :","position",[100,250,300,40], ... 
                "fontsize",16);  
   ejeY = uicontrol (entornoAproximar, "style", "edit", ...
-               "string", "6,8,9,7", "position",[120,210,290,40], ...
+               "string", "1.06,2.14,3.23,3.8,4.7,6.3,7.33,9.48,13.98,16.56,20.23,25.45", "position",[120,210,290,40], ...
                "fontsize",14,"backgroundcolor",[.5,.5,.5]);
   
   textoCantDecimales = uicontrol (entornoAproximar,"style","text", ...
@@ -195,7 +195,7 @@ endfunction
 function funcionAproxRecta(ejeX,ejeY,cantDecimales) 
  h=recta(ejeX,ejeY);
 
- helpdlg (strcat(" y = ",num2str(h(1),str2num(get(cantDecimales,"string")))," x + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"\t\t\t\t"),"Recta minimo cuadrado");
+ helpdlg (strcat(" y = ",num2str(h(1),str2num(get(cantDecimales,"string"))+1)," x + ",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\t\t\t\t"),"Recta minimo cuadrado");
      
 endfunction
    
@@ -229,8 +229,8 @@ endfunction
 
 function funcionAproxParabola(ejeX,ejeY,cantDecimales)
   h=parabola(ejeX,ejeY);
-  helpdlg (strcat("y=",num2str(h(1),str2num(get(cantDecimales,"string"))),"x^2 +",num2str(h(2),...
-           str2num(get(cantDecimales,"string"))),"x  +  ",num2str(h(3),str2num(get(cantDecimales,"string"))),...
+  helpdlg (strcat("y=",num2str(h(3),str2num(get(cantDecimales,"string"))+1),"x^2 +",num2str(h(2),...
+           str2num(get(cantDecimales,"string"))+1),"x  +  ",num2str(h(1),str2num(get(cantDecimales,"string"))+1),...
            "\t\t\t\t"),"Parabola minimo cuadrado");
   
  # helpdlg (evalc ("funcionAproximante"),"Expresion de la funcion aproximante");
@@ -304,7 +304,7 @@ function funcionAproxExponencial(ejeX,ejeY,cantDecimales)
     
   h=exponencial(ejeX,ejeY);
 
- helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"e^",num2str(h(1),str2num(get(cantDecimales,"string"))),"x","\t\t\t\t"),"Exponente de minimo cuadrado");
+ helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"*e^(",num2str(h(1),str2num(get(cantDecimales,"string"))),"*x)","\t\t\t\t"),"Exponente de minimo cuadrado");
      
 endfunction
 
@@ -351,7 +351,7 @@ function funcionAproxPotencial(ejeX,ejeY,cantDecimales)
     
   h=potencial(ejeX,ejeY);
 
- helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"*x^(",num2str(h(1),str2num(get(cantDecimales,"string"))),") ","\t\t\t\t\t\t"),"Potencial de minimo cuadrado");
+ helpdlg (strcat("y=",num2str(h(2),str2num(get(cantDecimales,"string"))),"*x^(",num2str(h(1),str2num(get(cantDecimales,"string"))+1),") ","\t\t\t\t\t\t"),"Potencial de minimo cuadrado");
 end
 
 ######                                                   
@@ -395,7 +395,7 @@ function funcionAproxHiperbola(ejeX,ejeY,cantDecimales)
     
   h=hiperbola(ejeX,ejeY);
     
-  helpdlg (strcat("y=",(num2str(h(2),str2num(get(cantDecimales,"string")))),"/(",(num2str(h(1),str2num(get(cantDecimales,"string")))),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
+  helpdlg (strcat("y=",(num2str(h(2),str2num(get(cantDecimales,"string"))+1)),"/(",(num2str(h(1),str2num(get(cantDecimales,"string"))+1)),"+ X)\t\t\t\t\t\t"),"Hiperbola de Minimo Cuadrado");
 end
 ###################################################################################
 #                              DETALLE CALCULO                                    #
@@ -457,8 +457,8 @@ function detalleCalculoRecta(ejeX,ejeY,cantDecimales)
   str=strcat(str,"El sistema planteado es\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumX),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX),"\t","+","\t","b *",num2str(cantidadPuntos),"\t","=","\t",num2str(sumY),"\n\n",...
-       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n",...
-       num2str(h(1),str2num(get(cantDecimales,"string"))),"X + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n");
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n",...
+       num2str(h(1),str2num(get(cantDecimales,"string"))+1),"X + ",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n");
        
   helpdlg (evalc ("str"),"Detalle del calculo  \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");
 endfunction      
@@ -501,8 +501,8 @@ function detalleCalculoParabola(ejeX,ejeY,cantDecimales)
        "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","c *",num2str(sumX2),"\t","=","\t",num2str(sumY),"\n\n",...
        "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","c *",num2str(sumx3),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","b *",num2str(sumx3),"\t","+","\t","c *",num2str(sumx4),"\t","=","\t",num2str(sumx2y),"\n\n",...
-       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","c =",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n\n",...
-       num2str(h(1),str2num(get(cantDecimales,"string"))),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))),"X  + ",num2str(h(3),str2num(get(cantDecimales,"string"))),"\n");
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(3),str2num(get(cantDecimales,"string"))+1),"\n","b =",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n","c =",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n\n",...
+       num2str(h(3),str2num(get(cantDecimales,"string"))+1),"X^2 + ",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"X  + ",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n");
        
   helpdlg (evalc ("str"),"Detalle del calculo\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
 endfunction
@@ -545,9 +545,9 @@ function detalleCalculoExponencial(ejeX,ejeY,cantDecimales)
   str=strcat(str,"El sistema planteado es\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","B *",num2str(sumX),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX),"\t","+","\t","B *",num2str(cantidadPuntos),"\t","=","\t",num2str(sumY),"\n\n",...
-       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","B =",num2str(log(h(2))),"\n",...
-      "b =e^B =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n",...
-      "\nla aproximacion exponencial es\n","y=  ",num2str(h(1),str2num(get(cantDecimales,"string"))),"e ^( ",num2str(h(2),str2num(get(cantDecimales,"string"))),"x )","\n");
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n","B =",num2str(log(h(2))),"\n",...
+      "b =e^B =",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n",...
+      "\nla aproximacion exponencial es\n","y=  ",num2str(h(2),str2num(get(cantDecimales,"string"))),"*e ^( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"*x )","\n");
        
   helpdlg (evalc ("str"),"Detalle del calculo  \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");
 endfunction
@@ -594,9 +594,9 @@ function detalleCalculoPotencial(ejeX,ejeY,cantDecimales)
   str=strcat(str,"El sistema planteado es\n\n",...
        "a *",num2str(sumX2),"\t","+","\t","B *",num2str(sumX),"\t","=","\t",num2str(sumXY),"\n\n",...
        "a *",num2str(sumX),"\t","+","\t","B *",num2str(cantidadPuntos),"\t","=","\t",num2str(sumY),"\n\n",...
-       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","B =",num2str(log(h(2))),"\n",...
-       "b =e^B =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n",...
-      "\nla aproximacion potencial es\n","Y= " ,num2str(h(2),str2num(get(cantDecimales,"string"))),"* x^( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"x )","\n");
+       "Resolviendo el sistema queda\n\n","a =",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n","B =",num2str(log(h(2))),"\n",...
+       "b =e^B =",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n",...
+      "\nla aproximacion potencial es\n","Y= " ,num2str(h(2),str2num(get(cantDecimales,"string"))),"* x^( ",num2str(h(1),str2num(get(cantDecimales,"string"))+1),")","\n");
        
   helpdlg (evalc ("str"),"Detalle del calculo \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t  ");
 endfunction
@@ -631,8 +631,8 @@ function detalleCalculoHiperbola(ejeX,ejeY,cantDecimales)
      str=strcat(str,"El sistema planteado es\n\n",...
      "a *",num2str(cantidadPuntos),"\t","+","\t","b *",num2str(sumX),"\t","+","\t","=","\t",num2str(sumY),"\n\n",...
      "a *",num2str(sumX),"\t","+","\t","b *",num2str(sumX2),"\t","+","\t","=","\t",num2str(sumXY),"\n\n",...
-     "Resolviendo el sistema queda\n\n","a =",num2str(h(2),str2num(get(cantDecimales,"string"))),"\n","b =",num2str(h(1),str2num(get(cantDecimales,"string"))),"\n","\n\n",...
-     num2str(h(2),str2num(get(cantDecimales,"string"))),"/( ",num2str(h(1),str2num(get(cantDecimales,"string"))),"+ X )\n");
+     "Resolviendo el sistema queda\n\n","a =",num2str(h(2),str2num(get(cantDecimales,"string"))+1),"\n","b =",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"\n","\n\n",...
+     num2str(h(2),str2num(get(cantDecimales,"string"))+1),"/( ",num2str(h(1),str2num(get(cantDecimales,"string"))+1),"+ X )\n");
 
   helpdlg (evalc ("str"),"Detalle del calculo \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t \t  \t \t \t \t \t \t \t ");  
   
@@ -828,29 +828,29 @@ function abrirVentanaComAprox(handlesource,event,ejeX,ejeY,cantDecimales)
 
   #Calculo recta aX + b
   h = recta(ejeX,ejeY); 
-  aRec = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
-  bRec = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))));
+  aRec = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))+1));
+  bRec = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))+1));
   
   #Calculo parabola aX^2 + bX+ x
   h = parabola(ejeX,ejeY); 
-  aPar = str2num(num2str(h(3),str2num(get(cantDecimales,"string"))));
-  bPar = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))));
-  cPar = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
+  aPar = str2num(num2str(h(3),str2num(get(cantDecimales,"string"))+1));
+  bPar = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))+1));
+  cPar = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))+1));
   
   #Calculo exponencial be^(aX)
   h = exponencial(ejeX,ejeY); 
-  aExp = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
-  bExp = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))));
+  aExp = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))+1));
+  bExp = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))+1));
   
   #Calculo potencial bX^a
   h = potencial(ejeX,ejeY); 
-  aPot = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
-  bPot = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))));
+  aPot = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))+1));
+  bPot = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))+1));
   
   #Calculo hiperbola a / (b + X)
   h = hiperbola(ejeX,ejeY);
-  aHip = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))));
-  bHip = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))));
+  aHip = str2num(num2str(h(2),str2num(get(cantDecimales,"string"))+1));
+  bHip = str2num(num2str(h(1),str2num(get(cantDecimales,"string"))+1));
   
   #Tabla comparaciones
   str1 ="\n _________________________________________________________________________________________________________________________________________________________________\n";
